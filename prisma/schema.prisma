@@ -10,13 +10,35 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Post {
-  id    String @id @default(uuid())
-  title String
-  text  String
+model Website {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  url         String   @unique
+  feedUrl     String   @unique
+  image       String
+  favicon     String
+  feeds       Feed[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+}
 
-  // To return `Date`s intact through the API we need to add data transformers
-  // https://trpc.io/docs/data-transformers
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+model Feed {
+  id             String   @id @default(uuid())
+  link           String?
+  guid           String?
+  title          String?
+  pubDate        String?
+  creator        String?
+  summary        String?
+  content        String?
+  isoDate        String?
+  categories     String[]
+  contentSnippet String?
+  read           Boolean  @default(false)
+  later          Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @default(now()) @updatedAt
+  Website        Website? @relation(fields: [websiteId], references: [id])
+  websiteId      String?
 }
