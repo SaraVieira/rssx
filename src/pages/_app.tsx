@@ -8,6 +8,7 @@ import { ReactElement, ReactNode } from 'react';
 import superjson from 'superjson';
 import { DefaultLayout } from '~/components/DefaultLayout';
 import { AppRouter } from '~/server/routers/_app';
+import { getAbsoluteUrl } from '~/utils/absoluteUrl';
 import { SSRContext } from '~/utils/trpc';
 import '../utils/globals.css';
 
@@ -26,25 +27,8 @@ const MyApp = (({ Component, pageProps }: AppPropsWithLayout) => {
   return getLayout(<Component {...pageProps} />);
 }) as AppType;
 
-function getBaseUrl() {
-  if (typeof window !== 'undefined') {
-    return '';
-  }
-  // reference for vercel.com
-  if (process.env.VERCEL_URL) {
-    return `https://${process.env.VERCEL_URL}`;
-  }
-
-  // // reference for render.com
-  if (process.env.RENDER_INTERNAL_HOSTNAME) {
-    return `http://${process.env.RENDER_INTERNAL_HOSTNAME}:${process.env.PORT}`;
-  }
-
-  // assume localhost
-  return `http://localhost:${process.env.PORT ?? 3000}`;
-}
-
 export default withTRPC<AppRouter>({
+  ssr: true,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   config() {
     /**
@@ -63,7 +47,7 @@ export default withTRPC<AppRouter>({
             (opts.direction === 'down' && opts.result instanceof Error),
         }),
         httpBatchLink({
-          url: `${getBaseUrl()}/api/trpc`,
+          url: `${getAbsoluteUrl()}/api/trpc`,
         }),
       ],
       /**
@@ -76,10 +60,6 @@ export default withTRPC<AppRouter>({
       // queryClientConfig: { defaultOptions: { queries: { staleTime: 60 } } },
     };
   },
-  /**
-   * @link https://trpc.io/docs/ssr
-   */
-  ssr: true,
   /**
    * Set headers or status code when doing SSR
    */
