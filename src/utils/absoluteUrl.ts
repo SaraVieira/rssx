@@ -4,6 +4,24 @@ export function getAbsoluteUrl(
   req?: IncomingMessage,
   localhostAddress = 'localhost:3000',
 ) {
+  if (!req) {
+    if (typeof window !== 'undefined') {
+      return '';
+    }
+    // reference for vercel.com
+    if (process.env.VERCEL_URL) {
+      return `https://${process.env.VERCEL_URL}`;
+    }
+
+    // // reference for render.com
+    if (process.env.RENDER_INTERNAL_HOSTNAME) {
+      return `http://${process.env.RENDER_INTERNAL_HOSTNAME}:${process.env.PORT}`;
+    }
+
+    // assume localhost
+    return `http://localhost:${process.env.PORT ?? 3000}`;
+  }
+
   let host =
     (req?.headers ? req.headers.host : window.location.host) ||
     localhostAddress;
