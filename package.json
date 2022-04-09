@@ -35,6 +35,7 @@
     "@trpc/react": "^9.22.0",
     "@trpc/server": "^9.22.0",
     "clsx": "^1.1.1",
+    "flowbite": "^1.4.1",
     "get-base-url": "^3.0.1",
     "lodash-es": "^4.17.21",
     "next": "^12.1.4",

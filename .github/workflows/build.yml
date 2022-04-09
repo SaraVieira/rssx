@@ -25,4 +25,4 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
       - run: yarn
-      - run: yarn build
+      - run: yarn build:2-build
