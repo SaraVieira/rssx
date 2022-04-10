@@ -8,7 +8,7 @@ import { useFeed, useToggleRead } from '~/hooks/feeds';
 export const Article = () => {
   const router = useRouter();
   const article = router.query.article as string;
-  const toggleRead = useToggleRead();
+  const toggleRead = useToggleRead({ id: article });
   const { data: message } = useFeed({ id: article });
 
   useEffect(() => {

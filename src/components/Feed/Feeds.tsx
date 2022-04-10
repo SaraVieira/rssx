@@ -10,6 +10,7 @@ export const Feeds = ({ later }: { later?: boolean }) => {
   const {
     query: { article },
   } = useRouter();
+
   return (
     <nav aria-label="Message list" className="min-h-0 flex-1 overflow-y-auto">
       <ul
@@ -20,7 +21,7 @@ export const Feeds = ({ later }: { later?: boolean }) => {
           <li
             className={classNames(
               ' bg-rssx-border py-5 px-6 hover:bg-rssx-bg focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 relative',
-              (item.id === article || item.read) && '!bg-rssx-bg',
+              (item.id === article || (!later && item.read)) && '!bg-rssx-bg',
             )}
             key={item.id}
           >

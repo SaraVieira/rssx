@@ -40,22 +40,26 @@ export const useFeed = ({ id }: { id: string }) => {
   return feed;
 };
 
-export const useToggleRead = ({
-  onSuccess,
-}: { onSuccess?: () => void } = {}) => {
+export const useToggleRead = ({ id }: { id: string }) => {
   const utils = trpc.useContext();
   const toggleRead = trpc.useMutation('feeds.toggleRead', {
     async onSuccess() {
       await utils.invalidateQueries(['feeds.all']);
-      onSuccess && onSuccess();
+      await utils.invalidateQueries(['feeds.byId', { id }]);
     },
   });
 
   return toggleRead;
 };
 
-export const useToggleLater = () => {
-  const toggleLater = trpc.useMutation('feeds.toggleLater');
+export const useToggleLater = ({ id }: { id: string }) => {
+  const utils = trpc.useContext();
+  const toggleLater = trpc.useMutation('feeds.toggleLater', {
+    async onSuccess() {
+      await utils.invalidateQueries(['feeds.saved']);
+      await utils.invalidateQueries(['feeds.byId', { id }]);
+    },
+  });
 
   return toggleLater;
 };

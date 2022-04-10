@@ -9,27 +9,41 @@ import classNames from 'classnames';
 import { noop } from 'lodash-es';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useFeeds, useToggleLater, useToggleRead } from '~/hooks/feeds';
+import {
+  useFeed,
+  useFeeds,
+  useToggleLater,
+  useToggleRead,
+} from '~/hooks/feeds';
 
 export const Toolbar = () => {
   const router = useRouter();
   const article = router.query.article as string;
-  const toggleRead = useToggleRead();
-  const toggleLater = useToggleLater();
-  const { data } = useFeeds();
-  const currentArticle =
-    data?.findIndex((a) => a.id === article) || (0 as number);
+  const toggleRead = useToggleRead({ id: article });
+  const toggleLater = useToggleLater({ id: article });
+  const { data } = useFeeds({ later: router.pathname === '/saved' });
+  const { data: currentArticle } = useFeed({ id: article });
 
   const actions = [
     {
-      title: 'Mark as unread',
+      title: currentArticle?.read ? 'Mark as unread' : 'Mark as read',
 
-      onClick: () => toggleRead.mutateAsync({ read: false, id: article }),
+      onClick: () =>
+        data &&
+        toggleRead.mutateAsync({
+          read: !currentArticle?.read,
+          id: article,
+        }),
       Icon: XCircleIcon,
     },
     {
-      title: 'Save for later',
-      onClick: () => toggleLater.mutateAsync({ later: true, id: article }),
+      title: currentArticle?.later ? 'Remove from saved' : 'Save for later',
+      onClick: () =>
+        data &&
+        toggleLater.mutateAsync({
+          later: !currentArticle?.later,
+          id: article,
+        }),
       Icon: ClockIcon,
     },
     {
@@ -40,7 +54,7 @@ export const Toolbar = () => {
     {
       title: 'Open on website',
       // @ts-ignore
-      onClick: () => data && window.open(data[currentArticle]?.link, '_blank'),
+      onClick: () => data && window.open(currentArticle?.link, '_blank'),
       Icon: ExternalLinkIcon,
     },
   ];
