@@ -52,15 +52,16 @@ export const Toolbar = () => {
       },
       {
         title: 'Copy link',
-        onClick: noop,
+        onClick: () =>
+          currentArticle?.link &&
+          navigator.clipboard.writeText(currentArticle?.link),
         Icon: ClipboardCopyIcon,
       },
       {
         title: 'Open on website',
 
         onClick: () =>
-          // @ts-ignore
-          currentArticle && window.open(currentArticle?.link, '_blank'),
+          currentArticle?.link && window.open(currentArticle?.link, '_blank'),
         Icon: ExternalLinkIcon,
       },
     ],

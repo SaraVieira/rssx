@@ -5,6 +5,8 @@ import { DesktopNav, MobileMenu } from './Nav';
 import { SidebarNav } from './SidebarNav';
 import { useNavigation } from '~/hooks/useNaviagtion';
 import { useRouter } from 'next/router';
+import { Logo } from './Logo';
+import Link from 'next/link';
 
 export const DefaultLayout = ({ children }: { children: any }) => {
   const router = useRouter();
@@ -18,16 +20,11 @@ export const DefaultLayout = ({ children }: { children: any }) => {
         <header className="flex-shrink-0 relative h-16 bg-rssx-bg flex items-center">
           {/* Logo area */}
           <div className="absolute inset-y-0 left-0 lg:static lg:flex-shrink-0">
-            <a
-              href="#"
-              className="flex items-center justify-center h-16 w-16 bg-cyan-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-600 lg:w-20"
-            >
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/workflow-mark.svg?color=white"
-                alt="Workflow"
-              />
-            </a>
+            <Link href="/">
+              <a className="flex items-center justify-center h-16 w-16 bg-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-600 lg:w-20">
+                <Logo width={60} />
+              </a>
+            </Link>
           </div>
           {/* Picker area */}
           <div className="mx-auto lg:hidden">
@@ -77,7 +74,7 @@ export const DefaultLayout = ({ children }: { children: any }) => {
         <MobileMenu open={open} setOpen={setOpen} />
         <div className="min-h-0 flex-1 flex overflow-hidden">
           <SidebarNav />
-          <main className="min-w-0 flex-1 border-t border-rssx-border h-full xl:flex">
+          <main className="min-w-0 flex-1 border-t border-rssx-border h-full xl:flex xl:flex-row flex-col">
             {children}
           </main>
         </div>

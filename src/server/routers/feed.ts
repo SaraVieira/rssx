@@ -2,6 +2,7 @@ import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import { createRouter } from '~/server/createRouter';
 import { prisma } from '~/server/prisma';
+import { getAllItemsInFeed } from '../utils/getAllItemsInFeed';
 
 export const feedRouter = createRouter()
   .query('all', {
@@ -53,6 +54,31 @@ export const feedRouter = createRouter()
           read,
         },
       });
+    },
+  })
+  .query('new', {
+    async resolve() {
+      const websites = await prisma.website.findMany({
+        select: {
+          id: true,
+          feedUrl: true,
+        },
+      });
+      const allFeeds = await Promise.all(
+        websites.map(
+          async (website) =>
+            await getAllItemsInFeed({
+              url: website.feedUrl,
+              websiteId: website.id,
+            }),
+        ),
+      );
+      await prisma.feed.createMany({
+        data: allFeeds.flat(),
+        skipDuplicates: true,
+      });
+
+      return { updated: true };
     },
   })
   .mutation('toggleLater', {

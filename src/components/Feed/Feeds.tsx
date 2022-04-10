@@ -12,7 +12,10 @@ export const Feeds = ({ later }: { later?: boolean }) => {
   } = useRouter();
 
   return (
-    <nav aria-label="Message list" className="min-h-0 flex-1 overflow-y-auto">
+    <nav
+      aria-label="Message list"
+      className="min-h-0 flex-1 overflow-y-auto w-full"
+    >
       <ul
         role="list"
         className="border-b border-rssx-border divide-y divide-rssx-border"

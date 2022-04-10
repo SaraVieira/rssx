@@ -3,6 +3,7 @@ import { ChevronDownIcon, SearchIcon, XIcon } from '@heroicons/react/solid';
 import classNames from 'classnames';
 import { Fragment } from 'react';
 import { useNavigation } from '~/hooks/useNaviagtion';
+import { Logo } from './Logo';
 
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
@@ -35,7 +36,7 @@ export const DesktopNav = () => {
           </div>
         </div>
       </div>
-      <div className="ml-10 pr-4 flex-shrink-0 flex items-center space-x-10">
+      {/* <div className="ml-10 pr-4 flex-shrink-0 flex items-center space-x-10">
         <div className="flex items-center space-x-8">
           <Menu as="div" className="relative inline-block text-left">
             <Menu.Button className="bg-rssx-bg rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600">
@@ -89,7 +90,7 @@ export const DesktopNav = () => {
             </Transition>
           </Menu>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
@@ -136,11 +137,7 @@ export const MobileMenu = ({
           >
             <div className="h-16 flex items-center justify-between px-4 sm:px-6">
               <a href="#">
-                <img
-                  className="block h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/workflow-mark.svg?color=cyan&shade=400"
-                  alt="Workflow"
-                />
+                <Logo className="block h-8 w-auto" />
               </a>
               <button
                 type="button"
@@ -179,7 +176,7 @@ export const MobileMenu = ({
                 </Fragment>
               ))}
             </div>
-            <div className="border-t border-rssx-border pt-4 pb-3">
+            {/* <div className="border-t border-rssx-border pt-4 pb-3">
               <div className="max-w-8xl mx-auto px-4 flex items-center sm:px-6">
                 <div className="flex-shrink-0">
                   <img
@@ -208,7 +205,7 @@ export const MobileMenu = ({
                   </a>
                 ))}
               </div>
-            </div>
+            </div> */}
           </nav>
         </Transition.Child>
       </Dialog>

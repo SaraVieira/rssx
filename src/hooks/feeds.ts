@@ -40,6 +40,19 @@ export const useFeed = ({ id }: { id: string }) => {
   return feed;
 };
 
+export const useLatest = () => {
+  const utils = trpc.useContext();
+  console.warn('CALLED');
+  const feed = trpc.useQuery(['feeds.new'], {
+    staleTime: 1200000,
+    onSettled: async () => {
+      await utils.invalidateQueries(['feeds.all']);
+    },
+  });
+
+  return feed;
+};
+
 export const useToggleRead = ({ id }: { id: string }) => {
   const utils = trpc.useContext();
   const toggleRead = trpc.useMutation('feeds.toggleRead', {
