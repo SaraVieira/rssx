@@ -9,6 +9,7 @@ import classNames from 'classnames';
 import { noop } from 'lodash-es';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useMemo } from 'react';
 import {
   useFeed,
   useFeeds,
@@ -23,41 +24,48 @@ export const Toolbar = () => {
   const toggleLater = useToggleLater({ id: article });
   const { data } = useFeeds({ later: router.pathname === '/saved' });
   const { data: currentArticle } = useFeed({ id: article });
+  const currentArticleId =
+    data?.findIndex((a) => a.id === article) || (0 as number);
 
-  const actions = [
-    {
-      title: currentArticle?.read ? 'Mark as unread' : 'Mark as read',
+  const actions = useMemo(
+    () => [
+      {
+        title: currentArticle?.read ? 'Mark as unread' : 'Mark as read',
 
-      onClick: () =>
-        data &&
-        toggleRead.mutateAsync({
-          read: !currentArticle?.read,
-          id: article,
-        }),
-      Icon: XCircleIcon,
-    },
-    {
-      title: currentArticle?.later ? 'Remove from saved' : 'Save for later',
-      onClick: () =>
-        data &&
-        toggleLater.mutateAsync({
-          later: !currentArticle?.later,
-          id: article,
-        }),
-      Icon: ClockIcon,
-    },
-    {
-      title: 'Copy link',
-      onClick: noop,
-      Icon: ClipboardCopyIcon,
-    },
-    {
-      title: 'Open on website',
-      // @ts-ignore
-      onClick: () => data && window.open(currentArticle?.link, '_blank'),
-      Icon: ExternalLinkIcon,
-    },
-  ];
+        onClick: () =>
+          currentArticle &&
+          toggleRead.mutateAsync({
+            read: !currentArticle?.read,
+            id: article,
+          }),
+        Icon: XCircleIcon,
+      },
+      {
+        title: currentArticle?.later ? 'Remove from saved' : 'Save for later',
+        onClick: () =>
+          currentArticle &&
+          toggleLater.mutateAsync({
+            later: !currentArticle?.later,
+            id: article,
+          }),
+        Icon: ClockIcon,
+      },
+      {
+        title: 'Copy link',
+        onClick: noop,
+        Icon: ClipboardCopyIcon,
+      },
+      {
+        title: 'Open on website',
+
+        onClick: () =>
+          // @ts-ignore
+          currentArticle && window.open(currentArticle?.link, '_blank'),
+        Icon: ExternalLinkIcon,
+      },
+    ],
+    [article, currentArticle, toggleLater, toggleRead],
+  );
 
   return (
     <div className="flex-shrink-0 bg-rssx-bg border-b border-rssx-border">
@@ -94,11 +102,11 @@ export const Toolbar = () => {
             {data?.length && (
               <nav aria-label="Pagination">
                 <span className="relative z-0 inline-flex shadow-sm rounded-md">
-                  {currentArticle !== 0 && (
+                  {currentArticleId !== 0 && (
                     <Link
                       href={{
                         query: {
-                          article: data?.[currentArticle - 1]?.id,
+                          article: data?.[currentArticleId - 1]?.id,
                         },
                       }}
                     >
@@ -108,11 +116,11 @@ export const Toolbar = () => {
                       </a>
                     </Link>
                   )}
-                  {currentArticle !== data?.length - 1 && (
+                  {currentArticleId !== data?.length - 1 && (
                     <Link
                       href={{
                         query: {
-                          article: data?.[currentArticle + 1]?.id,
+                          article: data?.[currentArticleId + 1]?.id,
                         },
                       }}
                     >
@@ -131,7 +139,6 @@ export const Toolbar = () => {
           </div>
         </div>
       </div>
-      {/* Message header */}
     </div>
   );
 };
