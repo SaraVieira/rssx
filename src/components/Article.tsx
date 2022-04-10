@@ -101,7 +101,7 @@ export const Article = () => {
       {message?.content && (
         <div
           className="mt-4 space-y-6 text-sm text-rssx-light px-4
-        sm:px-6 lg:px-8"
+        sm:px-6 lg:px-8 article"
           dangerouslySetInnerHTML={{ __html: message?.content }}
         ></div>
       )}
