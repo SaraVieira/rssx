@@ -4,6 +4,7 @@
 import { createRouter } from '../createRouter';
 import superjson from 'superjson';
 import { websiteRouter } from './website';
+import { feedRouter } from './feed';
 
 export const appRouter = createRouter()
   .transformer(superjson)
@@ -12,5 +13,6 @@ export const appRouter = createRouter()
       return 'yay!';
     },
   })
-  .merge('websites.', websiteRouter);
+  .merge('websites.', websiteRouter)
+  .merge('feeds.', feedRouter);
 export type AppRouter = typeof appRouter;

@@ -11,7 +11,7 @@ import { AppRouter } from '~/server/routers/_app';
 import { getAbsoluteUrl } from '~/utils/absoluteUrl';
 import { SSRContext } from '~/utils/trpc';
 import '../utils/globals.css';
-import 'flowbite';
+// import 'flowbite';
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
