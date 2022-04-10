@@ -1,18 +1,10 @@
-import { CogIcon, GlobeIcon, RssIcon } from '@heroicons/react/outline';
 import Tippy from '@tippyjs/react';
 import classNames from 'classnames';
 import Link from 'next/link';
-import { useMemo } from 'react';
+import { useNavigation } from '~/hooks/useNaviagtion';
 
 export const SidebarNav = () => {
-  const sidebarNavigation = useMemo(
-    () => [
-      { name: 'Feed', href: '/', icon: RssIcon, current: true },
-      { name: 'Websites', href: '/websites', icon: GlobeIcon, current: false },
-      { name: 'Settings', href: '/settings', icon: CogIcon, current: false },
-    ],
-    [],
-  );
+  const sidebarNavigation = useNavigation();
   return (
     <nav
       aria-label="Sidebar"

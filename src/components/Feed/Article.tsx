@@ -8,7 +8,9 @@ import { useFeed } from '~/hooks/feeds';
 export const Article = () => {
   const router = useRouter();
   const article = router.query.article as string;
+
   const { data: message } = useFeed({ id: article });
+
   return (
     <div className="bg-rssx-bg pt-5 pb-6">
       <div className="px-4 sm:flex sm:justify-between sm:items-baseline sm:px-6 lg:px-8">

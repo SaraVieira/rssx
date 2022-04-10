@@ -3,7 +3,6 @@ import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import { appRouter } from '../../server/routers/_app';
 import { trpc } from '../../utils/trpc';
 import superjson from 'superjson';
-import Parser from 'rss-parser';
 
 export default function ArticleViewPage(
   props: InferGetServerSidePropsType<typeof getServerSideProps>,
@@ -34,9 +33,7 @@ export async function getServerSideProps(
   await ssg.fetchQuery('feeds.byId', {
     id,
   });
-  const parser = new Parser();
-  const a = await parser.parseURL('https://css-tricks.com/feed/');
-  console.log(a);
+
   return {
     props: {
       trpcState: ssg.dehydrate(),

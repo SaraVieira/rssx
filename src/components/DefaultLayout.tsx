@@ -2,17 +2,18 @@ import { useState } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/solid';
 import { MenuIcon } from '@heroicons/react/outline';
 import { DesktopNav, MobileMenu } from './Nav';
-import { Toolbar } from './Toolbar';
 import { SidebarNav } from './SidebarNav';
-import { useFeeds } from '~/hooks/feeds';
+import { useNavigation } from '~/hooks/useNaviagtion';
+import { useRouter } from 'next/router';
 
 export const DefaultLayout = ({ children }: { children: any }) => {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
-  const { data } = useFeeds();
+  const sidebarNavigation = useNavigation();
 
   return (
     <>
-      <div className="h-full flex flex-col">
+      <div className="h-screen flex flex-col">
         {/* Top nav*/}
         <header className="flex-shrink-0 relative h-16 bg-rssx-bg flex items-center">
           {/* Logo area */}
@@ -28,23 +29,26 @@ export const DefaultLayout = ({ children }: { children: any }) => {
               />
             </a>
           </div>
-
           {/* Picker area */}
           <div className="mx-auto lg:hidden">
             <div className="relative">
               <label htmlFor="inbox-select" className="sr-only">
-                Choose inbox
+                Choose page
               </label>
               <select
                 id="inbox-select"
-                className="rounded-md border-0 bg-none pl-3 pr-8 text-base font-medium text-gray-900 focus:ring-2 focus:ring-blue-600"
+                className="rounded-md border-0 bg-none pl-3 pr-8 text-base font-medium text-rssx-light focus:ring-2 focus:ring-blue-600 bg-rssx-border"
+                onChange={(e) => router.push(e.target.value)}
               >
-                <option value="/open">Open</option>
-                <option value="/archived">Archived</option>
-                <option value="/assigned">Assigned</option>
-                <option value="/flagged">Flagged</option>
-                <option value="/spam">Spam</option>
-                <option value="/drafts">Drafts</option>
+                {sidebarNavigation.map((option) => (
+                  <option
+                    key={option.href}
+                    value={option.href}
+                    selected={option.current}
+                  >
+                    {option.name}
+                  </option>
+                ))}
               </select>
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center justify-center pr-2">
                 <ChevronDownIcon
@@ -73,7 +77,7 @@ export const DefaultLayout = ({ children }: { children: any }) => {
         <MobileMenu open={open} setOpen={setOpen} />
         <div className="min-h-0 flex-1 flex overflow-hidden">
           <SidebarNav />
-          <main className="min-w-0 flex-1 border-t border-rssx-border xl:flex">
+          <main className="min-w-0 flex-1 border-t border-rssx-border h-full xl:flex">
             {children}
           </main>
         </div>

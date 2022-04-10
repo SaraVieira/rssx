@@ -4,7 +4,10 @@ import { trpc } from '~/utils/trpc';
 export const useFeeds = () => {
   const feedQuery = trpc.useQuery(['feeds.all']);
 
-  return feedQuery;
+  return {
+    ...feedQuery,
+    unread: (feedQuery?.data || []).filter((d) => d.read === false).length,
+  };
 };
 
 export const useLoadAllFeeds = () => {
@@ -19,7 +22,9 @@ export const useLoadAllFeeds = () => {
 };
 
 export const useFeed = ({ id }: { id: string }) => {
-  const feed = trpc.useQuery(['feeds.byId', { id }]);
+  const feed = trpc.useQuery(['feeds.byId', { id }], {
+    enabled: !!id,
+  });
 
   return feed;
 };

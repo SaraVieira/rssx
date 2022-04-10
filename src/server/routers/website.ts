@@ -10,25 +10,27 @@ import { getAllItemsInFeed } from '../utils/getAllItemsInFeed';
 export const websiteRouter = createRouter()
   .mutation('add', {
     input: z.object({
-      url: z.string().min(10),
+      feedUrl: z.string().min(10),
     }),
-    async resolve({ input: { url } }) {
-      const base = `https://${getBaseUrl(url)}`;
+    async resolve({ input: { feedUrl } }) {
+      const base = `https://${getBaseUrl(feedUrl)}`;
       const { result } = await ogs({ url: base });
       const metaToSave = {
         title: result?.ogTitle,
         description: result.ogDescription,
         url: base,
         image: result.ogImage?.url || result.twitterImage?.url,
-        favicon: base + result.favicon,
-        feedUrl: url,
+        favicon: result.favicon.startsWith('http')
+          ? result.favicon
+          : base + result.favicon,
+        feedUrl,
       };
 
       const { id } = await prisma.website.create({
         data: metaToSave,
       });
 
-      const feeds = await getAllItemsInFeed({ url, websiteId: id });
+      const feeds = await getAllItemsInFeed({ url: feedUrl, websiteId: id });
 
       await prisma.feed.createMany({
         data: feeds,
