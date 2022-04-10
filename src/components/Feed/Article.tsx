@@ -2,14 +2,23 @@ import { Menu, Transition } from '@headlessui/react';
 import { DotsVerticalIcon } from '@heroicons/react/solid';
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
-import { Fragment } from 'react';
-import { useFeed } from '~/hooks/feeds';
+import { Fragment, useEffect } from 'react';
+import { useFeed, useToggleRead } from '~/hooks/feeds';
 
 export const Article = () => {
   const router = useRouter();
   const article = router.query.article as string;
-
+  const toggleRead = useToggleRead();
   const { data: message } = useFeed({ id: article });
+
+  useEffect(() => {
+    if (!message?.read) {
+      window.setTimeout(() => {
+        toggleRead.mutateAsync({ id: article, read: true });
+      }, 3000);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [article]);
 
   return (
     <div className="bg-rssx-bg pt-5 pb-6">

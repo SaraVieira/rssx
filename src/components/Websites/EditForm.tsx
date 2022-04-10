@@ -2,16 +2,15 @@ import { Website } from '@prisma/client';
 import { omit } from 'lodash-es';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { useAddWebsite, useWebsite } from '~/hooks/websites';
+import { defaultState, useFormState } from '~/hooks/useFormState';
+import {
+  useAddWebsite,
+  useDeleteWebsite,
+  useUpdateWebsite,
+  useWebsite,
+} from '~/hooks/websites';
 import { Button, Variants } from '../Button';
 import { Input } from '../Input';
-
-const defaultState = {
-  title: '',
-  feedUrl: '',
-  url: '',
-  description: '',
-};
 
 export const WebsiteForm = () => {
   const router = useRouter();
@@ -19,33 +18,53 @@ export const WebsiteForm = () => {
   const { data } = useWebsite({
     id: website,
   });
-  const [formState, setFormState] = useState<Omit<Website, 'id'> | any>(
-    omit(data, ['id']),
-  );
-  const addWebsite = useAddWebsite();
+  const { setFormState, formState } = useFormState({ data, website });
 
-  useEffect(() => {
-    if (website) {
-      if (website === 'new') {
-        setFormState(defaultState);
-      } else {
-        setFormState(data);
-      }
-    }
-  }, [website, data]);
+  const addWebsite = useAddWebsite();
+  const deleteWebsite = useDeleteWebsite();
+  const updateWebsite = useUpdateWebsite();
 
   const createWebsite = async (e: any) => {
     e.preventDefault();
     try {
-      await addWebsite.mutateAsync(formState);
+      const { id } = await addWebsite.mutateAsync(formState);
       setFormState(defaultState);
+      router.push({
+        query: {
+          website: id,
+        },
+      });
     } catch {}
   };
+
+  const removeWebsite = async (e: any) => {
+    e.preventDefault();
+    try {
+      await deleteWebsite.mutateAsync({ id: website });
+      setFormState(defaultState);
+      router.push({
+        query: {
+          website: null,
+        },
+      });
+    } catch {}
+  };
+
+  const editWebsite = async (e: any) => {
+    e.preventDefault();
+    try {
+      await updateWebsite.mutateAsync({ id: website, ...formState });
+    } catch {}
+  };
+
   return (
     <div className="bg-rssx-bg pt-5 pb-6 px-4 h-full flex items-start">
-      <form className="max-w-lg flex-grow" onSubmit={createWebsite}>
+      <form
+        className="max-w-lg flex-grow"
+        onSubmit={(e) => (!data ? createWebsite(e) : editWebsite(e))}
+      >
         <Input
-          label="Feed url (required)"
+          label={`Feed url ${data ? '' : '(required)'}`}
           name="feedUrl"
           required
           placeholder="https://example.com/rss"
@@ -102,7 +121,11 @@ export const WebsiteForm = () => {
             <Button type="submit" variant={Variants.PRIMARY}>
               Update
             </Button>
-            <Button type="button" variant={Variants.DANGER}>
+            <Button
+              type="button"
+              variant={Variants.DANGER}
+              onClick={removeWebsite}
+            >
               Delete
             </Button>
           </div>

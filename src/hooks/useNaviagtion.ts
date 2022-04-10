@@ -1,4 +1,9 @@
-import { CogIcon, GlobeIcon, RssIcon } from '@heroicons/react/outline';
+import {
+  ClockIcon,
+  CogIcon,
+  GlobeIcon,
+  RssIcon,
+} from '@heroicons/react/outline';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 
@@ -8,6 +13,12 @@ export const useNavigation = () => {
   const sidebarNavigation = useMemo(
     () => [
       { name: 'Feed', href: '/', icon: RssIcon, current: pathname === '/' },
+      {
+        name: 'Saved articles',
+        href: '/saved',
+        icon: ClockIcon,
+        current: pathname === '/saved',
+      },
       {
         name: 'Websites',
         href: '/websites',

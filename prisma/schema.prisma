@@ -25,7 +25,7 @@ model Website {
 
 model Feed {
   id             String   @id @default(uuid())
-  link           String?
+  link           String?  @unique
   guid           String?
   title          String?
   pubDate        String?

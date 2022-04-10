@@ -5,8 +5,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useFeeds } from '~/hooks/feeds';
 
-export const Feeds = () => {
-  const feedQuery = useFeeds();
+export const Feeds = ({ later }: { later?: boolean }) => {
+  const feedQuery = useFeeds({ later });
   const {
     query: { article },
   } = useRouter();
@@ -19,11 +19,16 @@ export const Feeds = () => {
         {feedQuery.data?.map((item) => (
           <li
             className={classNames(
-              'relative bg-rssx-bg py-5 px-6 hover:bg-rssx-border focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600',
-              item.id === article && 'bg-rssx-border',
+              ' bg-rssx-border py-5 px-6 hover:bg-rssx-bg focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 relative',
+              (item.id === article || item.read) && '!bg-rssx-bg',
             )}
             key={item.id}
           >
+            <div className="w-2 h-full absolute left-0 top-0">
+              {!item.read ? (
+                <div className="w-2 h-full bg-cyan-400 border border-cyan-600" />
+              ) : null}
+            </div>
             <div className="flex justify-between space-x-3">
               <div className="min-w-0 flex-1">
                 <Link
@@ -33,7 +38,7 @@ export const Feeds = () => {
                     },
                   }}
                 >
-                  <a href="#" className="block focus:outline-none">
+                  <a className="block focus:outline-none">
                     <span
                       className="absolute inset-0"
                       aria-hidden="true"

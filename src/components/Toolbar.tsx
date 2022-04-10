@@ -1,42 +1,50 @@
-import { Menu, Transition } from '@headlessui/react';
 import {
-  ChevronDownIcon,
-  ChevronUpIcon,
-  PencilIcon,
-  ReplyIcon,
-  UserAddIcon,
-} from '@heroicons/react/solid';
+  ClipboardCopyIcon,
+  ClockIcon,
+  ExternalLinkIcon,
+  XCircleIcon,
+} from '@heroicons/react/outline';
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/solid';
 import classNames from 'classnames';
 import { noop } from 'lodash-es';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Fragment } from 'react';
-import { useFeeds } from '~/hooks/feeds';
-
-const actions = [
-  {
-    title: 'Reply',
-    onClick: noop,
-    Icon: ReplyIcon,
-  },
-  {
-    title: 'Note',
-    onClick: noop,
-    Icon: PencilIcon,
-  },
-  {
-    title: 'Assign',
-    onClick: noop,
-    Icon: UserAddIcon,
-  },
-];
+import { useFeeds, useToggleLater, useToggleRead } from '~/hooks/feeds';
 
 export const Toolbar = () => {
-  const {
-    query: { article },
-  } = useRouter();
+  const router = useRouter();
+  const article = router.query.article as string;
+  const toggleRead = useToggleRead();
+  const toggleLater = useToggleLater();
   const { data } = useFeeds();
-  const currentArticle = data?.findIndex((a) => a.id === article) || 0;
+  const currentArticle =
+    data?.findIndex((a) => a.id === article) || (0 as number);
+
+  const actions = [
+    {
+      title: 'Mark as unread',
+
+      onClick: () => toggleRead.mutateAsync({ read: false, id: article }),
+      Icon: XCircleIcon,
+    },
+    {
+      title: 'Save for later',
+      onClick: () => toggleLater.mutateAsync({ later: true, id: article }),
+      Icon: ClockIcon,
+    },
+    {
+      title: 'Copy link',
+      onClick: noop,
+      Icon: ClipboardCopyIcon,
+    },
+    {
+      title: 'Open on website',
+      // @ts-ignore
+      onClick: () => data && window.open(data[currentArticle]?.link, '_blank'),
+      Icon: ExternalLinkIcon,
+    },
+  ];
+
   return (
     <div className="flex-shrink-0 bg-rssx-bg border-b border-rssx-border">
       {/* Toolbar*/}

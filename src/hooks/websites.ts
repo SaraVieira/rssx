@@ -26,3 +26,31 @@ export const useWebsite = ({ id }: { id: string }) => {
 
   return website;
 };
+
+export const useDeleteWebsite = ({
+  onSuccess,
+}: { onSuccess?: () => void } = {}) => {
+  const utils = trpc.useContext();
+  const addWebsite = trpc.useMutation('websites.delete', {
+    async onSuccess() {
+      await utils.invalidateQueries(['websites.all']);
+      onSuccess && onSuccess();
+    },
+  });
+
+  return addWebsite;
+};
+
+export const useUpdateWebsite = ({
+  onSuccess,
+}: { onSuccess?: () => void } = {}) => {
+  const utils = trpc.useContext();
+  const addWebsite = trpc.useMutation('websites.update', {
+    async onSuccess() {
+      await utils.invalidateQueries(['websites.all']);
+      onSuccess && onSuccess();
+    },
+  });
+
+  return addWebsite;
+};

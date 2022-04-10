@@ -37,7 +37,7 @@ export const websiteRouter = createRouter()
         skipDuplicates: true,
       });
 
-      return { feed: feeds, meta: metaToSave };
+      return { id };
     },
   })
   .query('all', {
@@ -75,5 +75,21 @@ export const websiteRouter = createRouter()
         });
       }
       return website;
+    },
+  })
+  .mutation('update', {
+    input: z.object({
+      title: z.string(),
+      feedUrl: z.string(),
+      url: z.string(),
+      description: z.string(),
+      id: z.string(),
+    }),
+    async resolve({ input }) {
+      const { id, ...rest } = input;
+      await prisma.website.update({ where: { id }, data: rest });
+      return {
+        id,
+      };
     },
   });

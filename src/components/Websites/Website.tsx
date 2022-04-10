@@ -34,7 +34,12 @@ export const Websites = () => {
               }}
             >
               <a className="flex space-x-4 items-center">
-                <img src={item.favicon} alt={item.title} className="w-6 h-6" />
+                <img
+                  src={item.favicon}
+                  width={24}
+                  alt={item.title}
+                  className="w-6 h-6"
+                />
                 <div>
                   <div className="flex justify-between space-x-3">
                     <div className="min-w-0 flex-1">

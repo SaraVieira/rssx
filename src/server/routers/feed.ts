@@ -18,8 +18,54 @@ export const feedRouter = createRouter()
           },
         },
       });
+      // @ts-ignore
+      return all.sort((a) => a.read);
+    },
+  })
+  .query('saved', {
+    async resolve() {
+      const saved = await prisma.feed.findMany({
+        where: {
+          later: true,
+        },
+        orderBy: {
+          isoDate: 'desc',
+        },
+        include: {
+          Website: {
+            select: {
+              title: true,
+            },
+          },
+        },
+      });
+      return saved;
+    },
+  })
+  .mutation('toggleRead', {
+    input: z.object({ read: z.boolean(), id: z.string() }),
+    async resolve({ input }) {
+      const { read, id } = input;
 
-      return all;
+      await prisma.feed.update({
+        where: { id },
+        data: {
+          read,
+        },
+      });
+    },
+  })
+  .mutation('toggleLater', {
+    input: z.object({ later: z.boolean(), id: z.string() }),
+    async resolve({ input }) {
+      const { later, id } = input;
+
+      await prisma.feed.update({
+        where: { id },
+        data: {
+          later,
+        },
+      });
     },
   })
   .mutation('delete', {
