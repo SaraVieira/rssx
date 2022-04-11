@@ -4,6 +4,17 @@ import { createRouter } from '~/server/createRouter';
 import { prisma } from '~/server/prisma';
 import { getAllItemsInFeed } from '../utils/getAllItemsInFeed';
 
+const listFetch = {
+  Website: true,
+  id: true,
+  read: true,
+  later: true,
+  title: true,
+  pubDate: true,
+  creator: true,
+  contentSnippet: true,
+};
+
 export const feedRouter = createRouter()
   .query('all', {
     async resolve() {
@@ -11,15 +22,7 @@ export const feedRouter = createRouter()
         orderBy: {
           isoDate: 'desc',
         },
-        select: {
-          Website: true,
-          id: true,
-          read: true,
-          title: true,
-          pubDate: true,
-          creator: true,
-          contentSnippet: true,
-        },
+        select: listFetch,
       });
       // @ts-ignore
       return all.sort((a) => a.read);
@@ -34,13 +37,7 @@ export const feedRouter = createRouter()
         orderBy: {
           isoDate: 'desc',
         },
-        include: {
-          Website: {
-            select: {
-              title: true,
-            },
-          },
-        },
+        select: listFetch,
       });
       return saved;
     },
@@ -123,6 +120,8 @@ export const feedRouter = createRouter()
           title: true,
           creator: true,
           content: true,
+          later: true,
+          link: true,
         },
       });
       if (!feed) {
