@@ -11,7 +11,7 @@ import { AppRouter } from '~/server/routers/_app';
 import { getAbsoluteUrl } from '~/utils/absoluteUrl';
 import { SSRContext } from '~/utils/trpc';
 import '../utils/globals.css';
-import 'tippy.js/dist/tippy.css'; // optional
+import 'tippy.js/dist/tippy.css';
 import { useLatest } from '~/hooks/feeds';
 import { SessionProvider } from 'next-auth/react';
 import { LoadingFire } from '~/components/Loading';
@@ -35,8 +35,8 @@ const MyApp = ((props: AppPropsWithLayout) => {
 const App = (({ Component, pageProps }: AppPropsWithLayout) => {
   const { status } = useLatest();
   const Layout = (Component.layout || DefaultLayout) as any;
-
-  if (status !== 'success' && status !== 'error') {
+  console.log(status);
+  if (status === 'loading') {
     return <LoadingFire />;
   }
 
