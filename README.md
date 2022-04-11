@@ -1,11 +1,24 @@
 # RSSX
 
-<center>
-<img src="public/gh.png"/></center><center>A minimalistic RSS reader</center>
+<p align="center">
+<img src="public/gh.png"/></p>
+<p align="p">A minimalistic RSS reader</p>
 
 ## Features
 
--
+- ☁️ Add Feeds
+- ✅ Mark articles as read/unread
+- 🕦 Mark articles as read later
+- ✨ Automatically fetches new articles
+
+## WIP
+
+- Add username and password via env vars
+- Settings for the interval to update articles
+- Database settings on how old articles must be to be deleted
+- Delete everything button
+- Export everything button
+- Search
 
 ## Built With
 
