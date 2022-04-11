@@ -13,7 +13,7 @@ import { SSRContext } from '~/utils/trpc';
 import '../utils/globals.css';
 import 'tippy.js/dist/tippy.css'; // optional
 import { useLatest } from '~/hooks/feeds';
-
+import { SessionProvider } from 'next-auth/react';
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
@@ -24,7 +24,12 @@ type AppPropsWithLayout = AppProps & {
 
 const MyApp = (({ Component, pageProps }: AppPropsWithLayout) => {
   const getLayout =
-    Component.getLayout ?? ((page) => <DefaultLayout>{page}</DefaultLayout>);
+    Component.getLayout ??
+    ((page) => (
+      <SessionProvider>
+        <DefaultLayout>{page}</DefaultLayout>
+      </SessionProvider>
+    ));
   useLatest();
 
   return getLayout(<Component {...pageProps} />);
