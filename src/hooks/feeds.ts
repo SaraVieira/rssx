@@ -6,6 +6,7 @@ export const useFeeds = ({ later }: { later?: boolean } = {}) => {
 
   return {
     ...feedQuery,
+    // @ts-ignore
     unread: (feedQuery?.data || []).filter((d) => d.read === false).length,
   };
 };

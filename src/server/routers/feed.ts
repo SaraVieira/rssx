@@ -11,12 +11,14 @@ export const feedRouter = createRouter()
         orderBy: {
           isoDate: 'desc',
         },
-        include: {
-          Website: {
-            select: {
-              title: true,
-            },
-          },
+        select: {
+          Website: true,
+          id: true,
+          read: true,
+          title: true,
+          pubDate: true,
+          creator: true,
+          contentSnippet: true,
         },
       });
       // @ts-ignore
@@ -114,8 +116,13 @@ export const feedRouter = createRouter()
       const { id } = input;
       const feed = await prisma.feed.findUnique({
         where: { id },
-        include: {
+        select: {
           Website: true,
+          id: true,
+          read: true,
+          title: true,
+          creator: true,
+          content: true,
         },
       });
       if (!feed) {
