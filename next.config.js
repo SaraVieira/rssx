@@ -18,6 +18,7 @@ function getConfig(config) {
  * @link https://nextjs.org/docs/api-reference/next.config.js/introduction
  */
 module.exports = getConfig({
+   ignoreBuildErrors: true,
   /**
    * Dynamic configuration available for the browser and server.
    * Note: requires `ssr: true` or a `getInitialProps` in `_app.tsx`
