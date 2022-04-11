@@ -4,7 +4,7 @@ import { withTRPC } from '@trpc/next';
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import { AppType } from 'next/dist/shared/lib/utils';
-import { ReactElement, ReactNode, useEffect } from 'react';
+import { ReactNode } from 'react';
 import superjson from 'superjson';
 import { DefaultLayout } from '~/components/DefaultLayout';
 import { AppRouter } from '~/server/routers/_app';

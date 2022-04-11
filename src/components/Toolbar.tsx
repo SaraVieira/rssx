@@ -6,7 +6,6 @@ import {
 } from '@heroicons/react/outline';
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/solid';
 import classNames from 'classnames';
-import { noop } from 'lodash-es';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';

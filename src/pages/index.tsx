@@ -5,8 +5,6 @@ import { Article } from '~/components/Feed/Article';
 import { useRouter } from 'next/router';
 
 import { Feeds } from '~/components/Feed/Feeds';
-import { getSession } from 'next-auth/react';
-import { NextPageContext } from 'next';
 
 const IndexPage: NextPageWithLayout = () => {
   const {

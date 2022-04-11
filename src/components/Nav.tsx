@@ -1,21 +1,21 @@
-import { Dialog, Menu, Transition } from '@headlessui/react';
-import { ChevronDownIcon, SearchIcon, XIcon } from '@heroicons/react/solid';
-import classNames from 'classnames';
+import { Dialog, Transition } from '@headlessui/react';
+import { SearchIcon, XIcon } from '@heroicons/react/solid';
+
 import { Fragment } from 'react';
 import { useNavigation } from '~/hooks/useNaviagtion';
 import { Logo } from './Logo';
 
-const userNavigation = [
-  { name: 'Your Profile', href: '#' },
-  { name: 'Sign out', href: '#' },
-];
+// const userNavigation = [
+//   { name: 'Your Profile', href: '#' },
+//   { name: 'Sign out', href: '#' },
+// ];
 
-const user = {
-  name: 'Whitney Francis',
-  email: 'whitney.francis@example.com',
-  imageUrl:
-    'https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-};
+// const user = {
+//   name: 'Whitney Francis',
+//   email: 'whitney.francis@example.com',
+//   imageUrl:
+//     'https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+// };
 
 export const DesktopNav = () => {
   return (
