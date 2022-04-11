@@ -6,6 +6,7 @@ export const useFeeds = ({ later }: { later?: boolean } = {}) => {
 
   return {
     ...feedQuery,
+    // @ts-ignore
     unread: (feedQuery?.data || []).filter((d) => d.read === false).length,
   };
 };
@@ -42,7 +43,6 @@ export const useFeed = ({ id }: { id: string }) => {
 
 export const useLatest = () => {
   const utils = trpc.useContext();
-  console.warn('CALLED');
   const feed = trpc.useQuery(['feeds.new'], {
     staleTime: 1200000,
     onSettled: async () => {
