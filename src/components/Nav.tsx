@@ -23,12 +23,12 @@ export const DesktopNav = () => {
       <div className="min-w-0 flex-1">
         <div className="max-w-2xl relative bg-rssx-bg text-gray-400 focus-within:text-gray-400">
           <label htmlFor="desktop-search" className="sr-only">
-            Search all inboxes
+            Search all feeds
           </label>
           <input
             id="desktop-search"
             type="search"
-            placeholder="Search all inboxes"
+            placeholder="Search all feeds"
             className="bg-transparent block w-full border-transparent pl-12 placeholder-gray-400 focus:border-transparent sm:text-sm focus:ring-0"
           />
           <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center justify-center pl-4">
@@ -151,12 +151,12 @@ export const MobileMenu = ({
             <div className="mt-2 max-w-8xl mx-auto px-4 sm:px-6">
               <div className="relative text-gray-400 bg-rssx-bg focus-within:text-gray-400">
                 <label htmlFor="mobile-search" className="sr-only">
-                  Search all inboxes
+                  Search all feeds
                 </label>
                 <input
                   id="mobile-search"
                   type="search"
-                  placeholder="Search all inboxes"
+                  placeholder="Search all feeds"
                   className="block w-full bg-transparent border-rssx-border rounded-md pl-10 placeholder-gray-400 focus:border-blue-600 focus:ring-blue-600"
                 />
                 <div className="absolute inset-y-0 left-0 flex items-center justify-center pl-3">

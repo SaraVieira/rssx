@@ -14,7 +14,7 @@ export const useNavigation = () => {
     () => [
       { name: 'Feed', href: '/', icon: RssIcon, current: pathname === '/' },
       {
-        name: 'Saved articles',
+        name: 'Saved',
         href: '/saved',
         icon: ClockIcon,
         current: pathname === '/saved',

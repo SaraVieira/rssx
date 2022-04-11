@@ -14,8 +14,10 @@ import '../utils/globals.css';
 import 'tippy.js/dist/tippy.css'; // optional
 import { useLatest } from '~/hooks/feeds';
 import { SessionProvider } from 'next-auth/react';
+import { LoadingFire } from '~/components/Loading';
+
 export type NextPageWithLayout = NextPage & {
-  getLayout?: (page: ReactElement) => ReactNode;
+  layout?: ReactNode;
 };
 
 type AppPropsWithLayout = AppProps & {
@@ -31,12 +33,17 @@ const MyApp = ((props: AppPropsWithLayout) => {
 }) as AppType;
 
 const App = (({ Component, pageProps }: AppPropsWithLayout) => {
-  useLatest();
+  const { status } = useLatest();
+  const Layout = (Component.layout || DefaultLayout) as any;
+
+  if (status !== 'success' && status !== 'error') {
+    return <LoadingFire />;
+  }
 
   return (
-    <DefaultLayout>
+    <Layout>
       <Component {...pageProps} />
-    </DefaultLayout>
+    </Layout>
   );
 }) as AppType;
 

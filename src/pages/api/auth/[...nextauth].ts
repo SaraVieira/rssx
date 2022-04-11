@@ -12,6 +12,9 @@ export default NextAuth({
 
     updateAge: 24 * 60 * 60, // 24 hours
   },
+  pages: {
+    signIn: '/signin',
+  },
   providers: [
     CredentialsProvider({
       name: 'username & password',
@@ -20,11 +23,6 @@ export default NextAuth({
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        console.log(
-          credentials &&
-            credentials.username === process.env.AUTH_USERNAME &&
-            credentials.password === process.env.AUTH_PASSWORD,
-        );
         if (
           credentials &&
           credentials.username === process.env.AUTH_USERNAME &&

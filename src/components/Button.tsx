@@ -17,16 +17,19 @@ const variants = {
 export const Button = ({
   children,
   variant = Variants.SECONDARY,
+  className,
   ...props
 }: {
   children: React.ReactNode;
   variant?: Variants;
+  className?: string;
 } & ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
     <button
       className={classNames(
-        'relative inline-flex items-center px-4 py-2 rounded-md border  text-sm font-medium focus:z-10 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600 disabled:opacity-60 disabled:pointer-events-none',
+        'relative justify-center inline-flex items-center px-4 py-2 rounded-md border  text-sm font-medium focus:z-10 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600 disabled:opacity-60 disabled:pointer-events-none',
         variants[variant],
+        className,
       )}
       {...props}
     >
