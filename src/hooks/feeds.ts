@@ -1,3 +1,4 @@
+import { useSession } from 'next-auth/react';
 import { useEffect } from 'react';
 import { trpc } from '~/utils/trpc';
 
@@ -42,8 +43,10 @@ export const useFeed = ({ id }: { id: string }) => {
 };
 
 export const useLatest = () => {
+  const { data: session } = useSession();
   const utils = trpc.useContext();
   const feed = trpc.useQuery(['feeds.new'], {
+    enabled: !!session?.user,
     staleTime: 1200000,
     onSettled: async () => {
       await utils.invalidateQueries(['feeds.all']);

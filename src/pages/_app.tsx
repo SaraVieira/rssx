@@ -22,17 +22,22 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 
-const MyApp = (({ Component, pageProps }: AppPropsWithLayout) => {
-  const getLayout =
-    Component.getLayout ??
-    ((page) => (
-      <SessionProvider>
-        <DefaultLayout>{page}</DefaultLayout>
-      </SessionProvider>
-    ));
+const MyApp = ((props: AppPropsWithLayout) => {
+  return (
+    <SessionProvider>
+      <App {...props} />
+    </SessionProvider>
+  );
+}) as AppType;
+
+const App = (({ Component, pageProps }: AppPropsWithLayout) => {
   useLatest();
 
-  return getLayout(<Component {...pageProps} />);
+  return (
+    <DefaultLayout>
+      <Component {...pageProps} />
+    </DefaultLayout>
+  );
 }) as AppType;
 
 export default withTRPC<AppRouter>({
