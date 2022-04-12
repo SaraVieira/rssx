@@ -17,14 +17,16 @@ export const SourceForm = () => {
   });
   const { setFormState, formState } = useFormState({ data, source });
 
-  const addSource = useAddSource();
-  const deleteSource = useDeleteSource();
-  const updateSource = useUpdateSource();
+  const { isLoading: isLoadingAdd, mutateAsync: addSource } = useAddSource();
+  const { isLoading: isLoadingDelete, mutateAsync: deleteSource } =
+    useDeleteSource();
+  const { isLoading: isLoadingUpdate, mutateAsync: updateSource } =
+    useUpdateSource();
 
   const createSource = async (e: any) => {
     e.preventDefault();
     try {
-      const { id } = await addSource.mutateAsync(formState);
+      const { id } = await addSource(formState);
       setFormState(defaultState);
       router.push({
         query: {
@@ -37,7 +39,7 @@ export const SourceForm = () => {
   const removeSource = async (e: any) => {
     e.preventDefault();
     try {
-      await deleteSource.mutateAsync({ id: source });
+      await deleteSource({ id: source });
       setFormState(defaultState);
       router.push({
         query: {
@@ -50,7 +52,7 @@ export const SourceForm = () => {
   const editSource = async (e: any) => {
     e.preventDefault();
     try {
-      await updateSource.mutateAsync({ id: source, ...formState });
+      await updateSource({ id: source, ...formState });
     } catch {}
   };
 
@@ -115,10 +117,15 @@ export const SourceForm = () => {
 
         {data ? (
           <div className="flex space-x-8">
-            <Button type="submit" variant={Variants.PRIMARY}>
+            <Button
+              type="submit"
+              variant={Variants.PRIMARY}
+              loading={isLoadingUpdate}
+            >
               Update
             </Button>
             <Button
+              loading={isLoadingDelete}
               type="button"
               variant={Variants.DANGER}
               onClick={removeSource}
@@ -130,10 +137,11 @@ export const SourceForm = () => {
           <div className="flex space-x-8">
             <Button
               type="submit"
+              loading={isLoadingAdd}
               variant={Variants.PRIMARY}
               disabled={!formState?.feedUrl}
             >
-              Add Source
+              Add Website
             </Button>
           </div>
         )}

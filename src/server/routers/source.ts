@@ -54,6 +54,9 @@ export const sourceRouter = createRouter()
     async resolve({ input }) {
       const { id } = input;
       await prisma.source.delete({ where: { id } });
+      await prisma.feed.deleteMany({
+        where: { OR: [{ sourceId: id }, { sourceId: null }], later: false },
+      });
       return {
         id,
       };
