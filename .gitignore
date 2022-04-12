@@ -41,3 +41,6 @@ prisma/_sqlite/migrations
 
 # testing
 playwright/test-results
+
+# eslint
+.eslintcache
