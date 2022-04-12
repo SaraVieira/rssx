@@ -23,7 +23,7 @@ export const Button = ({
 }: {
   children: React.ReactNode;
   variant?: Variants;
-  loading: boolean;
+  loading?: boolean;
   className?: string;
 } & ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
