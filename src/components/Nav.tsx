@@ -1,10 +1,9 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { SearchIcon, XIcon } from '@heroicons/react/solid';
 
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { useNavigation } from '~/hooks/useNaviagtion';
 import { useSearch } from '~/hooks/useSearch';
-import { trpc } from '~/utils/trpc';
 import { Logo } from './Logo';
 
 // const userNavigation = [

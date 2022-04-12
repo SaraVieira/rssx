@@ -9,7 +9,7 @@ import superjson from 'superjson';
 import { DefaultLayout } from '~/components/DefaultLayout';
 import { AppRouter } from '~/server/routers/_app';
 import { getAbsoluteUrl } from '~/utils/absoluteUrl';
-import { SSRContext, trpc } from '~/utils/trpc';
+import { SSRContext } from '~/utils/trpc';
 import '../utils/globals.css';
 import 'tippy.js/dist/tippy.css';
 import { useLatest } from '~/hooks/feeds';
