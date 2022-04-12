@@ -6,19 +6,19 @@
 
 ## Features
 
-- ☁️ Add Feeds
+- ☁️ Add Sources
 - ✅ Mark articles as read/unread
 - 🕦 Mark articles as read later
 - ✨ Automatically fetches new articles
+- 🔎 Search for articles
 
 ## WIP
 
-- Add username and password via env vars
 - Settings for the interval to update articles
 - Database settings on how old articles must be to be deleted
 - Delete everything button
 - Export everything button
-- Search
+- Add video tab to add videos to watch later
 
 ## Built With
 
