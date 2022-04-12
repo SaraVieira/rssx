@@ -1,8 +1,10 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { SearchIcon, XIcon } from '@heroicons/react/solid';
 
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import { useNavigation } from '~/hooks/useNaviagtion';
+import { useSearch } from '~/hooks/useSearch';
+import { trpc } from '~/utils/trpc';
 import { Logo } from './Logo';
 
 // const userNavigation = [
@@ -18,6 +20,8 @@ import { Logo } from './Logo';
 // };
 
 export const DesktopNav = () => {
+  const { search, setSearch } = useSearch();
+
   return (
     <div className="hidden lg:min-w-0 lg:flex-1 lg:flex lg:items-center lg:justify-between">
       <div className="min-w-0 flex-1">
@@ -30,6 +34,8 @@ export const DesktopNav = () => {
             type="search"
             placeholder="Search all feeds"
             className="bg-transparent block w-full border-transparent pl-12 placeholder-gray-400 focus:border-transparent sm:text-sm focus:ring-0"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
           />
           <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center justify-center pl-4">
             <SearchIcon className="h-5 w-5" aria-hidden="true" />

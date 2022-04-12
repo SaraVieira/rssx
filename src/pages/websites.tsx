@@ -1,15 +1,15 @@
 import { NextPageWithLayout } from './_app';
 import { useRouter } from 'next/router';
 
-import { Websites } from '~/components/Websites/Website';
+import { Sources } from '~/components/Sources/Source';
 import Link from 'next/link';
 import { PlusIcon } from '@heroicons/react/outline';
 import Tippy from '@tippyjs/react';
-import { WebsiteForm } from '~/components/Websites/EditForm';
+import { SourceForm } from '../components/Sources/EditForm';
 
 const IndexPage: NextPageWithLayout = () => {
   const {
-    query: { website },
+    query: { source },
   } = useRouter();
 
   return (
@@ -21,10 +21,10 @@ const IndexPage: NextPageWithLayout = () => {
         aria-labelledby="message-heading"
         className="min-w-0 flex-1 h-full flex flex-col overflow-hidden xl:order-last"
       >
-        {website && (
+        {source && (
           <>
             <div className="min-h-0 flex-1 overflow-y-auto">
-              <WebsiteForm />
+              <SourceForm />
             </div>
           </>
         )}
@@ -40,15 +40,13 @@ const IndexPage: NextPageWithLayout = () => {
           <div className="flex-shrink-0 border-b border-rssx-border">
             <div className="h-16 bg-rssx-bg px-6 flex flex-col justify-center">
               <div className="flex items-center justify-between">
-                <h2 className="text-lg font-medium text-rssx-light">
-                  Websites
-                </h2>
+                <h2 className="text-lg font-medium text-rssx-light">Sources</h2>
 
                 <Tippy content="Add a website">
                   <Link
                     href={{
                       query: {
-                        website: 'new',
+                        source: 'new',
                       },
                     }}
                   >
@@ -61,7 +59,7 @@ const IndexPage: NextPageWithLayout = () => {
               </div>
             </div>
           </div>
-          <Websites />
+          <Sources />
         </div>
       </aside>
     </>

@@ -1,4 +1,4 @@
-import { Website } from '@prisma/client';
+import { Source } from '@prisma/client';
 import classNames from 'classnames';
 import { formatDistance } from 'date-fns';
 import { truncate } from 'lodash-es';
@@ -9,7 +9,7 @@ export const SingleFeed = ({
   id,
   read,
   creator,
-  Website,
+  Source,
   pubDate,
   later,
   title,
@@ -20,7 +20,7 @@ export const SingleFeed = ({
   id: string;
   read: boolean;
   creator: string | null;
-  Website: Website | null;
+  Source: Source | null;
   pubDate: string | null;
   title: string | null;
   contentSnippet: string | null;
@@ -56,7 +56,7 @@ export const SingleFeed = ({
                 {title}
               </p>
               <p className="text-sm text-gray-400 truncate">
-                {creator} for {Website?.title}
+                {creator} for {Source?.title}
               </p>
             </a>
           </Link>

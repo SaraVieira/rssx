@@ -2,12 +2,12 @@ import classNames from 'classnames';
 import { truncate } from 'lodash-es';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useWebsites } from '~/hooks/websites';
+import { useSources } from '~/hooks/sources';
 
-export const Websites = () => {
-  const websiteQuery = useWebsites();
+export const Sources = () => {
+  const sourceQuery = useSources();
   const {
-    query: { website },
+    query: { source },
   } = useRouter();
   return (
     <nav
@@ -18,18 +18,18 @@ export const Websites = () => {
         role="list"
         className="border-b border-rssx-border divide-y divide-rssx-border h-full bg-rssx-bg"
       >
-        {websiteQuery.data?.map((item) => (
+        {sourceQuery.data?.map((item: any) => (
           <li
             className={classNames(
               'relative bg-rssx-bg py-5 px-6 hover:bg-rssx-border focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 ',
-              item.id === website && 'bg-rssx-border',
+              item.id === source && 'bg-rssx-border',
             )}
             key={item.id}
           >
             <Link
               href={{
                 query: {
-                  website: item.id,
+                  source: item.id,
                 },
               }}
             >

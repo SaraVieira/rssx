@@ -9,12 +9,13 @@ import superjson from 'superjson';
 import { DefaultLayout } from '~/components/DefaultLayout';
 import { AppRouter } from '~/server/routers/_app';
 import { getAbsoluteUrl } from '~/utils/absoluteUrl';
-import { SSRContext } from '~/utils/trpc';
+import { SSRContext, trpc } from '~/utils/trpc';
 import '../utils/globals.css';
 import 'tippy.js/dist/tippy.css';
 import { useLatest } from '~/hooks/feeds';
-import { SessionProvider } from 'next-auth/react';
+import { SessionProvider, useSession } from 'next-auth/react';
 import { LoadingFire } from '~/components/Loading';
+import { SearchProvider } from '~/hooks/useSearch';
 
 export type NextPageWithLayout = NextPage & {
   layout?: ReactNode;
@@ -26,17 +27,20 @@ type AppPropsWithLayout = AppProps & {
 
 const MyApp = ((props: AppPropsWithLayout) => {
   return (
-    <SessionProvider>
-      <App {...props} />
-    </SessionProvider>
+    <SearchProvider>
+      <SessionProvider>
+        <App {...props} />
+      </SessionProvider>
+    </SearchProvider>
   );
 }) as AppType;
 
 const App = (({ Component, pageProps }: AppPropsWithLayout) => {
+  const { data: session } = useSession();
   const { status } = useLatest();
+
   const Layout = (Component.layout || DefaultLayout) as any;
-  console.log(status);
-  if (status === 'loading') {
+  if (status !== 'success' && session?.user) {
     return <LoadingFire />;
   }
 

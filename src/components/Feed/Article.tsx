@@ -31,7 +31,7 @@ export const Article = () => {
             {message?.title}
           </h1>
           <p className="mt-1 text-sm text-gray-400 truncate">
-            {message?.creator} for {message?.Website?.title}
+            {message?.creator} for {message?.Source?.title}
           </p>
         </div>
 

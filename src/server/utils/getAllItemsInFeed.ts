@@ -6,11 +6,11 @@ const parser: Parser<unknown, { 'content:encoded': string }> = new Parser({
 });
 
 export const getAllItemsInFeed = async ({
-  websiteId,
+  sourceId,
   url,
 }: {
   url: string;
-  websiteId: string;
+  sourceId: string;
 }) => {
   const { items } = await parser.parseURL(url);
   return items.map((item: Item) => ({
@@ -25,6 +25,6 @@ export const getAllItemsInFeed = async ({
     isoDate: item.isoDate,
     categories: item.categories || [],
     contentSnippet: item.contentSnippet,
-    websiteId: websiteId,
+    sourceId: sourceId,
   }));
 };

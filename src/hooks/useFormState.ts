@@ -1,4 +1,4 @@
-import { Website } from '@prisma/client';
+import { Source } from '@prisma/client';
 import { omit } from 'lodash-es';
 import { useEffect, useState } from 'react';
 
@@ -11,23 +11,23 @@ export const defaultState = {
 
 export const useFormState = ({
   data,
-  website,
+  source,
 }: {
   data: any;
-  website: string;
+  source: string;
 }) => {
-  const [formState, setFormState] = useState<Omit<Website, 'id'> | any>(
+  const [formState, setFormState] = useState<Omit<Source, 'id'> | any>(
     omit(data, ['id']),
   );
   useEffect(() => {
-    if (website) {
-      if (website === 'new') {
+    if (source) {
+      if (source === 'new') {
         setFormState(defaultState);
       } else {
         setFormState(data);
       }
     }
-  }, [website, data]);
+  }, [source, data]);
 
   return { formState, setFormState };
 };

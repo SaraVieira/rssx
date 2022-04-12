@@ -20,10 +20,10 @@ export const useNavigation = () => {
         current: pathname === '/saved',
       },
       {
-        name: 'Websites',
-        href: '/websites',
+        name: 'Sources',
+        href: '/sources',
         icon: GlobeIcon,
-        current: pathname === '/websites',
+        current: pathname === '/sources',
       },
       {
         name: 'Settings',

@@ -7,7 +7,7 @@ import getBaseUrl from 'get-base-url';
 import ogs from 'open-graph-scraper';
 import { getAllItemsInFeed } from '../utils/getAllItemsInFeed';
 
-export const websiteRouter = createRouter()
+export const sourceRouter = createRouter()
   .mutation('add', {
     input: z.object({
       feedUrl: z.string().min(10),
@@ -26,11 +26,11 @@ export const websiteRouter = createRouter()
         feedUrl,
       };
 
-      const { id } = await prisma.website.create({
+      const { id } = await prisma.source.create({
         data: metaToSave,
       });
 
-      const feeds = await getAllItemsInFeed({ url: feedUrl, websiteId: id });
+      const feeds = await getAllItemsInFeed({ url: feedUrl, sourceId: id });
 
       await prisma.feed.createMany({
         data: feeds,
@@ -42,7 +42,7 @@ export const websiteRouter = createRouter()
   })
   .query('all', {
     async resolve() {
-      const all = await prisma.website.findMany();
+      const all = await prisma.source.findMany();
 
       return all;
     },
@@ -53,7 +53,7 @@ export const websiteRouter = createRouter()
     }),
     async resolve({ input }) {
       const { id } = input;
-      await prisma.website.delete({ where: { id } });
+      await prisma.source.delete({ where: { id } });
       return {
         id,
       };
@@ -65,16 +65,16 @@ export const websiteRouter = createRouter()
     }),
     async resolve({ input }) {
       const { id } = input;
-      const website = await prisma.website.findUnique({
+      const source = await prisma.source.findUnique({
         where: { id },
       });
-      if (!website) {
+      if (!source) {
         throw new TRPCError({
           code: 'NOT_FOUND',
-          message: `No website with id '${id}'`,
+          message: `No source with id '${id}'`,
         });
       }
-      return website;
+      return source;
     },
   })
   .mutation('update', {
@@ -87,7 +87,7 @@ export const websiteRouter = createRouter()
     }),
     async resolve({ input }) {
       const { id, ...rest } = input;
-      await prisma.website.update({ where: { id }, data: rest });
+      await prisma.source.update({ where: { id }, data: rest });
       return {
         id,
       };

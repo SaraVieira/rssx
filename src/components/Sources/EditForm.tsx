@@ -1,56 +1,56 @@
 import { useRouter } from 'next/router';
 import { defaultState, useFormState } from '~/hooks/useFormState';
 import {
-  useAddWebsite,
-  useDeleteWebsite,
-  useUpdateWebsite,
-  useWebsite,
-} from '~/hooks/websites';
+  useAddSource,
+  useDeleteSource,
+  useUpdateSource,
+  useSource,
+} from '~/hooks/sources';
 import { Button, Variants } from '../Button';
 import { Input } from '../Input';
 
-export const WebsiteForm = () => {
+export const SourceForm = () => {
   const router = useRouter();
-  const website = router.query.website as string;
-  const { data } = useWebsite({
-    id: website,
+  const source = router.query.source as string;
+  const { data } = useSource({
+    id: source,
   });
-  const { setFormState, formState } = useFormState({ data, website });
+  const { setFormState, formState } = useFormState({ data, source });
 
-  const addWebsite = useAddWebsite();
-  const deleteWebsite = useDeleteWebsite();
-  const updateWebsite = useUpdateWebsite();
+  const addSource = useAddSource();
+  const deleteSource = useDeleteSource();
+  const updateSource = useUpdateSource();
 
-  const createWebsite = async (e: any) => {
+  const createSource = async (e: any) => {
     e.preventDefault();
     try {
-      const { id } = await addWebsite.mutateAsync(formState);
+      const { id } = await addSource.mutateAsync(formState);
       setFormState(defaultState);
       router.push({
         query: {
-          website: id,
+          source: id,
         },
       });
     } catch {}
   };
 
-  const removeWebsite = async (e: any) => {
+  const removeSource = async (e: any) => {
     e.preventDefault();
     try {
-      await deleteWebsite.mutateAsync({ id: website });
+      await deleteSource.mutateAsync({ id: source });
       setFormState(defaultState);
       router.push({
         query: {
-          website: null,
+          source: null,
         },
       });
     } catch {}
   };
 
-  const editWebsite = async (e: any) => {
+  const editSource = async (e: any) => {
     e.preventDefault();
     try {
-      await updateWebsite.mutateAsync({ id: website, ...formState });
+      await updateSource.mutateAsync({ id: source, ...formState });
     } catch {}
   };
 
@@ -58,7 +58,7 @@ export const WebsiteForm = () => {
     <div className="bg-rssx-bg pt-5 pb-6 px-4 h-full flex items-start">
       <form
         className="max-w-lg flex-grow"
-        onSubmit={(e) => (!data ? createWebsite(e) : editWebsite(e))}
+        onSubmit={(e) => (!data ? createSource(e) : editSource(e))}
       >
         <Input
           label={`Feed url ${data ? '' : '(required)'}`}
@@ -121,7 +121,7 @@ export const WebsiteForm = () => {
             <Button
               type="button"
               variant={Variants.DANGER}
-              onClick={removeWebsite}
+              onClick={removeSource}
             >
               Delete
             </Button>
@@ -133,7 +133,7 @@ export const WebsiteForm = () => {
               variant={Variants.PRIMARY}
               disabled={!formState?.feedUrl}
             >
-              Add Website
+              Add Source
             </Button>
           </div>
         )}

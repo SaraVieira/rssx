@@ -3,7 +3,7 @@
  */
 import { createRouter } from '../createRouter';
 import superjson from 'superjson';
-import { websiteRouter } from './website';
+import { sourceRouter } from './source';
 import { feedRouter } from './feed';
 
 export const appRouter = createRouter()
@@ -13,6 +13,6 @@ export const appRouter = createRouter()
       return 'yay!';
     },
   })
-  .merge('websites.', websiteRouter)
+  .merge('sources.', sourceRouter)
   .merge('feeds.', feedRouter);
 export type AppRouter = typeof appRouter;

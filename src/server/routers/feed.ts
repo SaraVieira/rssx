@@ -5,7 +5,7 @@ import { prisma } from '~/server/prisma';
 import { getAllItemsInFeed } from '../utils/getAllItemsInFeed';
 
 const listFetch = {
-  Website: true,
+  Source: true,
   id: true,
   read: true,
   later: true,
@@ -57,18 +57,18 @@ export const feedRouter = createRouter()
   })
   .query('new', {
     async resolve() {
-      const websites = await prisma.website.findMany({
+      const sources = await prisma.source.findMany({
         select: {
           id: true,
           feedUrl: true,
         },
       });
       const allFeeds = await Promise.all(
-        websites.map(
-          async (website) =>
+        sources.map(
+          async (source) =>
             await getAllItemsInFeed({
-              url: website.feedUrl,
-              websiteId: website.id,
+              url: source.feedUrl,
+              sourceId: source.id,
             }),
         ),
       );
@@ -99,7 +99,7 @@ export const feedRouter = createRouter()
     }),
     async resolve({ input }) {
       const { id } = input;
-      await prisma.website.delete({ where: { id } });
+      await prisma.source.delete({ where: { id } });
       return {
         id,
       };
@@ -114,7 +114,7 @@ export const feedRouter = createRouter()
       const feed = await prisma.feed.findUnique({
         where: { id },
         select: {
-          Website: true,
+          Source: true,
           id: true,
           read: true,
           title: true,
@@ -131,5 +131,42 @@ export const feedRouter = createRouter()
         });
       }
       return feed;
+    },
+  })
+  .query('search', {
+    input: z.object({
+      query: z.string(),
+      saved: z.boolean(),
+    }),
+    async resolve({ input: { query, saved } }) {
+      const feeds = await prisma.feed.findMany({
+        where: {
+          OR: [
+            {
+              content: {
+                contains: query,
+                mode: 'insensitive',
+              },
+            },
+            {
+              title: {
+                contains: query,
+                mode: 'insensitive',
+              },
+            },
+            {
+              Source: {
+                title: { contains: query, mode: 'insensitive' },
+                feedUrl: { contains: query, mode: 'insensitive' },
+              },
+            },
+          ],
+          AND: {
+            later: saved,
+          },
+        },
+        select: listFetch,
+      });
+      return feeds;
     },
   });
