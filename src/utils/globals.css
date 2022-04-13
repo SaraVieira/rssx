@@ -12,9 +12,9 @@
 
   /* Copy & Lists */
   .article p {
-    line-height: 1.5rem;
     margin-top: 1.5rem;
     margin-bottom: 0;
+    @apply text-base leading-6 text-gray-50;
   }
   .article ul,
   .article ol {
@@ -34,11 +34,7 @@
     margin-top: 0;
     margin-bottom: 0;
   }
-  .article blockquote {
-    line-height: 1.5rem;
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
+  
   /* Headings */
   .article h1,
   .article h2,
@@ -54,26 +50,24 @@
     font-weight: bold;
   }
   .article h1 {
-    font-size: 4.242rem;
+    @apply text-3xl;
     line-height: 4.5rem;
     margin-top: 3rem;
   }
   .article h2 {
-    font-size: 2.828rem;
+@apply text-2xl;
     line-height: 3rem;
     margin-top: 3rem;
   }
   .article h3 {
-    font-size: 1.414rem;
+    @apply text-xl;
   }
   .article h4 {
-    font-size: 0.707rem;
+    @apply text-lg
   }
-  .article h5 {
-    font-size: 0.4713333333333333rem;
-  }
-  .article h6 {
-    font-size: 0.3535rem;
+ 
+  .article h6, .article h5 {
+    @apply text-base
   }
   /* Tables */
   .article table {
@@ -90,6 +84,11 @@
  .article code {
     vertical-align: bottom;
   }
+
+  .article iframe {
+    width: 100%;
+  }
+  div.js-code-highlight { @apply flex;}
 
   code[class*="language-"],
   pre[class*="language-"] ,
@@ -240,143 +239,26 @@
     font-style: italic;
   }
 
-  body .fire {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -25%);
-    height: 20vw;
-    width: 20vw;
+  blockquote {
+    @apply font-normal;
+    border-left: 10px solid #ccc;
+    margin: 1.5em 10px;
+    padding: 0.5em 10px;
+    quotes: "\201C""\201D""\2018""\2019";
   }
-  body .fire .flames {
-    position: absolute;
-    bottom: 40%;
-    left: 50%;
-    width: 60%;
-    height: 60%;
-    transform: translateX(-50%) rotate(45deg);
-  }
-  body .fire .flames .flame {
-    position: absolute;
-    right: 0%;
-    bottom: 0%;
-    width: 0%;
-    height: 0%;
-    background-color: #FFDC01;
-    border-radius: 1vw;
-  }
-  body .fire .flames .flame:nth-child(2n+1) {
 
-            animation: flameodd 1.5s ease-in infinite;
+  blockquote:before {
+    color: #ccc;
+    content: open-quote;
+    font-size: 4em;
+    line-height: 0.1em;
+    margin-right: 0.25em;
+    vertical-align: -0.4em;
   }
-  body .fire .flames .flame:nth-child(2n) {
+  blockquote p {
+    @apply inline;
+  }
 
-            animation: flameeven 1.5s ease-in infinite;
-  }
-  body .fire .flames .flame:nth-child(1) {
-
-            animation-delay: 0s;
-  }
-  body .fire .flames .flame:nth-child(2) {
-            animation-delay: 0.375s;
-  }
-  body .fire .flames .flame:nth-child(3) {
-            animation-delay: 0.75s;
-  }
-  body .fire .flames .flame:nth-child(4) {
-            animation-delay: 1.125s;
-  }
-  body .fire .logs {
-    position: absolute;
-    bottom: 25%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    height: 15%;
-  }
-  body .fire .logs:before, body .fire .logs:after {
-    position: absolute;
-    content: "";
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(20deg);
-    height: 100%;
-    width: 100%;
-    border-radius: 1vw;
-    background-color: #70392F;
-  }
-  body .fire .logs:before {
-    transform: translate(-50%, -50%) rotate(-20deg);
-    background-color: #612E25;
-  }
-  
-  
-  @keyframes flameodd {
-    0%, 100% {
-      width: 0%;
-      height: 0%;
-    }
-    25% {
-      width: 100%;
-      height: 100%;
-    }
-    0% {
-      background-color: #FFDC01;
-      z-index: 1000000;
-    }
-    40% {
-      background-color: #FDAC01;
-      z-index: 1000000;
-    }
-    100% {
-      background-color: #F73B01;
-      z-index: -10;
-    }
-    0% {
-      right: 0%;
-      bottom: 0%;
-    }
-    25% {
-      right: 1%;
-      bottom: 2%;
-    }
-    100% {
-      right: 150%;
-      bottom: 170%;
-    }
-  }
-  
-  @keyframes flameeven {
-    0%, 100% {
-      width: 0%;
-      height: 0%;
-    }
-    25% {
-      width: 100%;
-      height: 100%;
-    }
-    0% {
-      background-color: #FFDC01;
-      z-index: 1000000;
-    }
-    40% {
-      background-color: #FDAC01;
-      z-index: 1000000;
-    }
-    100% {
-      background-color: #F73B01;
-      z-index: -10;
-    }
-    0% {
-      right: 0%;
-      bottom: 0%;
-    }
-    25% {
-      right: 2%;
-      bottom: 1%;
-    }
-    100% {
-      right: 170%;
-      bottom: 150%;
-    }
+  .article a {
+    @apply underline underline-offset-1
   }

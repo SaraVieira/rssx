@@ -25,9 +25,7 @@ const IndexPage: NextPageWithLayout = () => {
         {article && (
           <>
             <Toolbar />
-            <div className="min-h-0 flex-1 overflow-y-auto">
-              <Article />
-            </div>
+            <Article />
           </>
         )}
       </section>
