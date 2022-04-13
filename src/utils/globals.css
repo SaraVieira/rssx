@@ -262,3 +262,8 @@
   .article a {
     @apply underline underline-offset-1
   }
+
+
+  iframe {
+    @apply h-[396px];
+  }

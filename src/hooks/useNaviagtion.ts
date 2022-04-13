@@ -3,6 +3,7 @@ import {
   CogIcon,
   GlobeIcon,
   RssIcon,
+  VideoCameraIcon,
 } from '@heroicons/react/outline';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
@@ -24,6 +25,12 @@ export const useNavigation = () => {
         href: '/sources',
         icon: GlobeIcon,
         current: pathname === '/sources',
+      },
+      {
+        name: 'Videos',
+        href: '/videos',
+        icon: VideoCameraIcon,
+        current: pathname === '/videos',
       },
       {
         name: 'Settings',

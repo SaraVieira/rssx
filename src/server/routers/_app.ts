@@ -5,6 +5,7 @@ import { createRouter } from '../createRouter';
 import superjson from 'superjson';
 import { sourceRouter } from './source';
 import { feedRouter } from './feed';
+import { videoRouter } from './video';
 
 export const appRouter = createRouter()
   .transformer(superjson)
@@ -13,6 +14,7 @@ export const appRouter = createRouter()
       return 'yay!';
     },
   })
+  .merge('videos.', videoRouter)
   .merge('sources.', sourceRouter)
   .merge('feeds.', feedRouter);
 export type AppRouter = typeof appRouter;

@@ -1,4 +1,4 @@
-// This is your Prisma schema file,
+// This is your Prisma schema file
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
@@ -42,4 +42,25 @@ model Feed {
   updatedAt      DateTime @default(now()) @updatedAt
   Source         Source?  @relation(fields: [sourceId], references: [id])
   sourceId       String?
+}
+
+model Video {
+  id               String   @id @default(uuid())
+  url              String?
+  title            String
+  author_name      String
+  author_url       String
+  type             String
+  height           Int
+  width            Int
+  version          String
+  provider_name    String
+  provider_url     String
+  thumbnail_height Int
+  thumbnail_width  Int
+  thumbnail_url    String
+  html             String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @default(now()) @updatedAt
+  seen             Boolean  @default(false)
 }
