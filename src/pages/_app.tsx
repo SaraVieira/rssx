@@ -36,11 +36,12 @@ const MyApp = ((props: AppPropsWithLayout) => {
 }) as AppType;
 
 const App = (({ Component, pageProps }: AppPropsWithLayout) => {
-  const { data: session } = useSession();
+  const { data: session, status: sessionStatus } = useSession();
   const { status } = useLatest();
 
   const Layout = (Component.layout || DefaultLayout) as any;
-  if (status !== 'success' && session?.user) {
+
+  if ((status !== 'success' && session?.user) || sessionStatus === 'loading') {
     return <LoadingFire />;
   }
 
